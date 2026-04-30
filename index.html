@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>Tip Calculator — Fast & Free | HandyTool</title>
 <meta name="description" content="Calculate your tip instantly. Enter bill amount, choose tip %, split between friends. Free tip calculator for restaurants, delivery, taxis and more.">
 <meta name="keywords" content="tip calculator, how much to tip, tip percentage calculator, restaurant tip, split bill calculator, handytool">
@@ -43,6 +44,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HFT1427Z23"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HFT1427Z23');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7164402025911671" crossorigin="anonymous"></script>
 
 <style>
   /* ---------- RESET ---------- */
@@ -102,6 +115,32 @@
   }
   @media (max-width: 480px) {
     .tagline { display: none; }
+  }
+
+  /* Tool navigation */
+  .tool-nav {
+    display: flex;
+    gap: 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .tool-nav a {
+    color: #6B7280;
+    text-decoration: none;
+    padding: 4px 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tool-nav a:hover {
+    color: #2563EB;
+    text-decoration: none;
+  }
+  .tool-nav a.active {
+    color: #2563EB;
+    border-bottom-color: #2563EB;
+  }
+  @media (max-width: 480px) {
+    .tool-nav { gap: 12px; font-size: 0.8125rem; }
   }
 
   /* ---------- AD PLACEHOLDERS ---------- */
@@ -186,11 +225,18 @@
   }
 
   /* Bill input */
+  .bill-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
   .bill-input-wrap {
     position: relative;
+    flex: 1;
+    min-width: 0;
   }
   .bill-input-wrap::before {
-    content: "$";
+    content: attr(data-symbol);
     position: absolute;
     left: 14px;
     top: 50%;
@@ -202,7 +248,7 @@
   }
   .bill-input {
     width: 100%;
-    padding: 14px 14px 14px 32px;
+    padding: 14px 14px 14px 36px;
     font-size: 1.25rem;
     font-weight: 600;
     border: 1.5px solid #E5E7EB;
@@ -210,6 +256,27 @@
     color: #111827;
     background: #FFFFFF;
     transition: border-color 0.2s;
+  }
+  .currency-select {
+    padding: 0 36px 0 14px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 8px;
+    color: #111827;
+    background: #FFFFFF url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%236B7280' d='M6 8L0 0h12z'/></svg>") no-repeat right 12px center;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 110px;
+  }
+  .currency-select:focus {
+    outline: none;
+    border-color: #2563EB;
+  }
+  @media (max-width: 420px) {
+    .currency-select { min-width: 90px; font-size: 0.875rem; padding-right: 30px; }
   }
   .bill-input:focus {
     outline: none;
@@ -671,7 +738,11 @@
 <header class="site-header">
   <div class="container">
     <a href="/" class="logo" style="text-decoration:none;">Handy<span>Tool</span></a>
-    <div class="tagline">Free Online Calculators & Tools</div>
+    <nav class="tool-nav" aria-label="Calculators">
+      <a href="tools.html">All Tools</a>
+      <a href="/" class="active">Tip</a>
+      <a href="401k.html">401(k)</a>
+    </nav>
   </div>
 </header>
 
@@ -691,8 +762,22 @@
         <!-- Bill Amount -->
         <div class="field-group">
           <label class="field-label" for="bill">Bill Amount</label>
-          <div class="bill-input-wrap">
-            <input type="number" id="bill" class="bill-input" placeholder="0.00" min="0" step="0.01" inputmode="decimal" autofocus>
+          <div class="bill-row">
+            <div class="bill-input-wrap" id="billWrap" data-symbol="$">
+              <input type="number" id="bill" class="bill-input" placeholder="0.00" min="0" step="0.01" inputmode="decimal" autofocus>
+            </div>
+            <select id="currency" class="currency-select" aria-label="Currency">
+              <option value="USD" selected>USD $</option>
+              <option value="EUR">EUR €</option>
+              <option value="GBP">GBP £</option>
+              <option value="JPY">JPY ¥</option>
+              <option value="KRW">KRW ₩</option>
+              <option value="CAD">CAD C$</option>
+              <option value="AUD">AUD A$</option>
+              <option value="MXN">MXN MX$</option>
+              <option value="INR">INR ₹</option>
+              <option value="CNY">CNY ¥</option>
+            </select>
           </div>
         </div>
 
@@ -926,10 +1011,16 @@
   <div class="container footer-inner">
     <div class="footer-copy">© 2024 HandyTool. All rights reserved.</div>
     <nav class="footer-links" aria-label="Footer">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-      <a href="#">Contact</a>
-      <a href="#">Advertiser Disclosure</a>
+      <a href="tools.html">All Tools</a>
+      <a href="/">Tip</a>
+      <a href="401k.html">401(k)</a>
+      <a href="mortgage.html">Mortgage</a>
+      <a href="loan.html">Loan</a>
+      <a href="sales-tax.html">Sales Tax</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
     </nav>
     <div class="footer-disclaimer">HandyTool is for informational purposes only.</div>
   </div>
@@ -939,17 +1030,34 @@
 (function() {
   'use strict';
 
+  // ---------- CURRENCY CONFIG ----------
+  var CURRENCIES = {
+    USD: { symbol: '$',   decimals: 2, prefix: true  },
+    EUR: { symbol: '€',   decimals: 2, prefix: true  },
+    GBP: { symbol: '£',   decimals: 2, prefix: true  },
+    JPY: { symbol: '¥',   decimals: 0, prefix: true  },
+    KRW: { symbol: '₩',   decimals: 0, prefix: true  },
+    CAD: { symbol: 'C$',  decimals: 2, prefix: true  },
+    AUD: { symbol: 'A$',  decimals: 2, prefix: true  },
+    MXN: { symbol: 'MX$', decimals: 2, prefix: true  },
+    INR: { symbol: '₹',   decimals: 2, prefix: true  },
+    CNY: { symbol: '¥',   decimals: 2, prefix: true  }
+  };
+
   // ---------- STATE ----------
   var state = {
     bill: 0,
     tipPercent: 18,
     people: 1,
     rounding: 'none',
-    customActive: false
+    customActive: false,
+    currency: 'USD'
   };
 
   // ---------- ELEMENTS ----------
   var billInput = document.getElementById('bill');
+  var billWrap = document.getElementById('billWrap');
+  var currencySelect = document.getElementById('currency');
   var tipButtons = document.querySelectorAll('.tip-btn');
   var customWrap = document.getElementById('customWrap');
   var customSlider = document.getElementById('customSlider');
@@ -967,7 +1075,22 @@
   // ---------- HELPERS ----------
   function fmt(n) {
     if (!isFinite(n) || n < 0) n = 0;
-    return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var c = CURRENCIES[state.currency] || CURRENCIES.USD;
+    var rounded = c.decimals === 0 ? Math.round(n) : n;
+    var str = rounded.toFixed(c.decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return c.prefix ? (c.symbol + str) : (str + ' ' + c.symbol);
+  }
+  function applyCurrencySymbol() {
+    var c = CURRENCIES[state.currency] || CURRENCIES.USD;
+    billWrap.setAttribute('data-symbol', c.symbol);
+    // JPY/KRW use whole numbers — adjust step/min
+    if (c.decimals === 0) {
+      billInput.step = '1';
+      billInput.placeholder = '0';
+    } else {
+      billInput.step = '0.01';
+      billInput.placeholder = '0.00';
+    }
   }
 
   // ---------- CALCULATE ----------
@@ -1001,6 +1124,23 @@
 
   // ---------- BILL INPUT ----------
   billInput.addEventListener('input', calculate);
+
+  // ---------- CURRENCY ----------
+  currencySelect.addEventListener('change', function() {
+    state.currency = currencySelect.value;
+    try { localStorage.setItem('ht_currency', state.currency); } catch (e) {}
+    applyCurrencySymbol();
+    calculate();
+  });
+  // Restore saved preference
+  try {
+    var saved = localStorage.getItem('ht_currency');
+    if (saved && CURRENCIES[saved]) {
+      state.currency = saved;
+      currencySelect.value = saved;
+    }
+  } catch (e) {}
+  applyCurrencySymbol();
 
   // ---------- TIP BUTTONS ----------
   tipButtons.forEach(function(btn) {

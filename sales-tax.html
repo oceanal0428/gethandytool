@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Sales Tax Calculator — All 50 US States | HandyTool</title>
+<meta name="description" content="Free sales tax calculator for all 50 US states. Calculate sales tax on any purchase, find state and average local tax rates, and see before-tax or after-tax prices.">
+<meta name="keywords" content="sales tax calculator, US sales tax, state sales tax, sales tax by state, reverse sales tax calculator, before tax calculator, after tax price">
+<link rel="canonical" href="https://gethandytool.com/sales-tax.html">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Sales Tax Calculator — All 50 US States | HandyTool">
+<meta property="og:description" content="Calculate sales tax for any US state. Forward and reverse calculation supported.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gethandytool.com/sales-tax.html">
+<meta property="og:site_name" content="HandyTool">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sales Tax Calculator — 50 States | HandyTool">
+<meta name="twitter:description" content="Calculate US sales tax: forward, reverse, and by state.">
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "HandyTool Sales Tax Calculator",
+  "url": "https://gethandytool.com/sales-tax.html",
+  "description": "Free US sales tax calculator with all 50 state rates",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "HandyTool",
+    "url": "https://gethandytool.com/"
+  }
+}
+</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="page.css">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HFT1427Z23"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HFT1427Z23');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7164402025911671" crossorigin="anonymous"></script>
+
+<style>
+  main { padding: 24px 0 48px; }
+  section { margin-bottom: 40px; }
+
+  .hero-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .hero-sub {
+    text-align: center;
+    color: #6B7280;
+    margin-bottom: 24px;
+    font-size: 1rem;
+  }
+  @media (max-width: 480px) { .hero-title { font-size: 1.625rem; } }
+
+  .calc-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 28px;
+  }
+  @media (max-width: 480px) { .calc-card { padding: 18px; } }
+
+  /* Mode toggle */
+  .mode-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 20px;
+    background: #F3F4F6;
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .mode-btn {
+    padding: 10px;
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    color: #6B7280;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mode-btn.active {
+    background: #FFFFFF;
+    color: #2563EB;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  @media (min-width: 540px) {
+    .input-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .field-group { display: block; }
+  .field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 6px;
+  }
+  .field-label .hint {
+    font-weight: 400;
+    color: #6B7280;
+    margin-left: 6px;
+    font-size: 0.8125rem;
+  }
+  .field-input-wrap {
+    position: relative;
+  }
+  .field-input-wrap::before {
+    content: attr(data-symbol);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6B7280;
+    font-weight: 600;
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  .field-input-wrap.suffix::after {
+    content: attr(data-suffix);
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6B7280;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    pointer-events: none;
+  }
+  .field-input {
+    width: 100%;
+    padding: 12px 14px 12px 32px;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 8px;
+    color: #111827;
+    background: #FFFFFF;
+    transition: border-color 0.2s;
+  }
+  .field-input.no-prefix { padding-left: 14px; }
+  .field-input.with-suffix { padding-right: 50px; }
+  .field-input:focus {
+    outline: none;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+  }
+  .field-select {
+    width: 100%;
+    padding: 12px 36px 12px 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 8px;
+    color: #111827;
+    background: #FFFFFF url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%236B7280' d='M6 8L0 0h12z'/></svg>") no-repeat right 12px center;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .field-select:focus { outline: none; border-color: #2563EB; }
+
+  .rate-info {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    color: #1E40AF;
+  }
+  .rate-info strong { color: #1E3A8A; }
+
+  /* Results */
+  .result-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid #F3F4F6;
+  }
+  .result-main {
+    background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+    color: #FFFFFF;
+    padding: 24px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .result-main .result-label {
+    font-size: 0.875rem;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .result-main .result-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  @media (max-width: 480px) {
+    .result-main .result-value { font-size: 1.875rem; }
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 480px) {
+    .result-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .result-item {
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .result-item .label {
+    font-size: 0.75rem;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .result-item .value {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  /* Ad placeholders */
+  .ad-banner-top, .ad-rect-middle, .ad-rect-bottom {
+    background: #F3F4F6;
+    border: 1px dashed #D1D5DB;
+    color: #9CA3AF;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin: 20px auto;
+    width: 100%;
+  }
+  .ad-banner-top { min-height: 90px; max-width: 728px; }
+  @media (max-width: 600px) { .ad-banner-top { min-height: 50px; max-width: 320px; } }
+  .ad-rect-middle, .ad-rect-bottom { min-height: 280px; max-width: 336px; margin: 32px auto; }
+
+  /* State table */
+  .state-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-top: 14px;
+  }
+  .state-table th, .state-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  .state-table th {
+    background: #F9FAFB;
+    font-weight: 600;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .state-table td { color: #111827; }
+  .state-table td:nth-child(2), .state-table td:nth-child(3) { text-align: right; font-weight: 600; }
+  .state-table tbody tr:hover { background: #F9FAFB; }
+  .state-table .no-tax { color: #10B981; font-weight: 700; }
+  @media (max-width: 480px) {
+    .state-table th, .state-table td { padding: 8px 6px; font-size: 0.8125rem; }
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .faq-q {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    font-weight: 600;
+    color: #111827;
+    cursor: pointer;
+    font-size: 0.9375rem;
+  }
+  .faq-q .plus {
+    color: #2563EB;
+    font-size: 1.25rem;
+    font-weight: 700;
+    transition: transform 0.2s;
+  }
+  .faq-item.open .faq-q .plus { transform: rotate(45deg); }
+  .faq-a {
+    display: none;
+    padding: 0 16px 14px;
+    color: #374151;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* Info section */
+  .info-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 28px;
+  }
+  @media (max-width: 480px) { .info-card { padding: 20px; } }
+  .info-card h2 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .info-card h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin: 20px 0 6px;
+  }
+  .info-card p { margin-bottom: 12px; color: #374151; }
+  .info-card ul { margin: 0 0 14px 22px; color: #374151; }
+  .info-card li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">Handy<span>Tool</span></a>
+    <nav class="tool-nav">
+      <a href="/tools.html">All Tools</a>
+      <a href="/sales-tax.html" class="active">Sales Tax</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section>
+      <h1 class="hero-title">Sales Tax Calculator</h1>
+      <p class="hero-sub">Calculate sales tax for any US state. Forward and reverse calculation supported.</p>
+
+      <div class="ad-banner-top">Ad space</div>
+
+      <div class="calc-card">
+
+        <div class="mode-toggle" role="tablist">
+          <button type="button" class="mode-btn active" id="mode-forward">Add Tax to Price</button>
+          <button type="button" class="mode-btn" id="mode-reverse">Reverse (Find Pre-Tax)</button>
+        </div>
+
+        <div class="input-grid">
+          <div class="field-group">
+            <label class="field-label" for="price-input"><span id="price-label">Pre-Tax Price</span></label>
+            <div class="field-input-wrap" data-symbol="$">
+              <input class="field-input" type="number" id="price-input" value="100" min="0" step="0.01">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="state-select">State</label>
+            <select class="field-select" id="state-select">
+              <option value="custom" data-rate="">Custom rate…</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top:16px;">
+          <label class="field-label" for="rate-input">Tax Rate <span class="hint">state + average local</span></label>
+          <div class="field-input-wrap suffix" data-symbol="" data-suffix="%">
+            <input class="field-input no-prefix with-suffix" type="number" id="rate-input" value="6" min="0" step="0.01">
+          </div>
+          <div class="rate-info" id="rate-info" style="display:none;"></div>
+        </div>
+
+        <div class="result-section">
+          <div class="result-main">
+            <div class="result-label" id="result-main-label">After-Tax Total</div>
+            <div class="result-value" id="r-total">$106.00</div>
+          </div>
+
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="label" id="r-base-label">Pre-Tax Price</div>
+              <div class="value" id="r-base">$100.00</div>
+            </div>
+            <div class="result-item">
+              <div class="label">Tax Amount</div>
+              <div class="value" id="r-tax">$6.00</div>
+            </div>
+            <div class="result-item">
+              <div class="label">Tax Rate</div>
+              <div class="value" id="r-rate">6.00%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ad-rect-middle">Ad space</div>
+    </section>
+
+    <section>
+      <div class="info-card">
+        <h2>US Sales Tax Rates by State <span style="font-weight:400;color:#6B7280;font-size:0.875rem;">(state + avg local)</span></h2>
+        <p style="font-size:0.875rem;color:#6B7280;">Combined rates include state sales tax plus the average local tax. Actual local rate varies by city/county. Five states have no statewide sales tax.</p>
+        <div style="overflow-x:auto;">
+          <table class="state-table">
+            <thead>
+              <tr><th>State</th><th>State Rate</th><th>Avg Combined</th></tr>
+            </thead>
+            <tbody id="state-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="info-card">
+        <h2>How Sales Tax Works in the US</h2>
+        <p>Unlike VAT in most other countries, US sales tax is added at checkout — not included in the listed price. Rates vary widely by state, county, and city. Some states have no sales tax at all, while others combine state and local rates of over 9%.</p>
+
+        <h3>States with no sales tax</h3>
+        <p>Five states ("NOMAD") have no statewide sales tax: <strong>New Hampshire, Oregon, Montana, Alaska, and Delaware</strong>. Alaska allows local sales taxes (some cities charge 1–7%), and Montana has limited local resort taxes.</p>
+
+        <h3>How to calculate sales tax</h3>
+        <p style="background:#F9FAFB;padding:12px;border-radius:6px;font-family:monospace;font-size:0.9375rem;">Tax = Price × (Rate ÷ 100)</p>
+        <p style="background:#F9FAFB;padding:12px;border-radius:6px;font-family:monospace;font-size:0.9375rem;">Total = Price + Tax</p>
+        <p>For reverse calculation (finding the pre-tax price from a total that already includes tax):</p>
+        <p style="background:#F9FAFB;padding:12px;border-radius:6px;font-family:monospace;font-size:0.9375rem;">Pre-Tax = Total ÷ (1 + Rate ÷ 100)</p>
+
+        <h3>What's typically taxed?</h3>
+        <ul>
+          <li><strong>Tangible goods</strong> — most retail merchandise</li>
+          <li><strong>Prepared food</strong> — restaurant meals, often at higher rates</li>
+          <li><strong>Some services</strong> — varies dramatically by state</li>
+          <li><strong>Digital goods</strong> — increasingly taxed (software, streaming)</li>
+        </ul>
+
+        <h3>Common exemptions</h3>
+        <ul>
+          <li><strong>Groceries</strong> — exempt or reduced rate in most states</li>
+          <li><strong>Prescription medication</strong> — exempt nationwide</li>
+          <li><strong>Clothing</strong> — exempt in some states (PA, NJ, MN, etc.)</li>
+          <li><strong>Sales tax holidays</strong> — back-to-school events in many states</li>
+        </ul>
+
+        <h3>Online purchases</h3>
+        <p>Since the 2018 <em>South Dakota v. Wayfair</em> ruling, most online retailers must collect sales tax in any state where they have economic nexus (typically over $100,000 in sales or 200 transactions). You'll see sales tax added at checkout based on your shipping address.</p>
+
+        <h3>Use tax</h3>
+        <p>If you buy something out of state (or online) and don't pay sales tax, you may technically owe a "use tax" to your state at the same rate. Most consumers don't pay this on small items, but enforcement is increasing for big-ticket purchases.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="info-card">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">Why don't US prices include sales tax? <span class="plus">+</span></div>
+          <div class="faq-a">Because rates vary by state, county, and city, retailers post pre-tax prices and add tax at checkout. A price tag in Nashville is correct for both Tennessee residents and visitors — only the final total differs based on local rates.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Which state has the highest sales tax? <span class="plus">+</span></div>
+          <div class="faq-a">By combined state + average local rate, Louisiana, Tennessee, Arkansas, and Washington top the list at around 9–10%. By state-only rate, California (7.25%) is the highest, but local additions can push other states higher overall.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Are groceries always exempt? <span class="plus">+</span></div>
+          <div class="faq-a">No. About a dozen states still tax groceries (often at reduced rates). Many states distinguish "essential groceries" (exempt) from "prepared food" (taxed), which can get confusing — a hot rotisserie chicken may be taxed while a raw one isn't.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Do I pay sales tax when ordering online? <span class="plus">+</span></div>
+          <div class="faq-a">Yes, in nearly all cases. After the 2018 <em>Wayfair</em> ruling, online retailers collect sales tax based on your shipping address. The rate matches your local combined rate, even if the seller is across the country.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Can I get a sales tax refund as a tourist? <span class="plus">+</span></div>
+          <div class="faq-a">The US has no nationwide tourist VAT-refund program like many countries. Louisiana and Texas offer limited refund programs for international visitors at participating stores; otherwise, sales tax is not refundable.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">How accurate are the rates in this calculator? <span class="plus">+</span></div>
+          <div class="faq-a">State rates are stable, but local rates change frequently. The combined average is a reasonable estimate, but for exact tax (e.g., quoting a customer or filing taxes), check your specific city/county rate at your state Department of Revenue.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What's the difference between sales tax and VAT? <span class="plus">+</span></div>
+          <div class="faq-a">Sales tax is collected only at the final point of sale to the consumer. VAT (value-added tax, used in Europe and most of the world) is collected at every step of production with credits along the way. VAT is included in displayed prices; US sales tax is added at checkout.</div>
+        </div>
+      </div>
+
+      <div class="ad-rect-bottom">Ad space</div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-copy">© <span id="footer-year">2026</span> HandyTool</div>
+    <div class="footer-links">
+      <a href="/tools.html">All Tools</a>
+      <a href="/">Tip Calculator</a>
+      <a href="/401k.html">401(k)</a>
+      <a href="/mortgage.html">Mortgage</a>
+      <a href="/loan.html">Loan</a>
+      <a href="/sales-tax.html">Sales Tax</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+    <p class="footer-disclaimer">Rates are approximate combined averages. For official rates, consult your state's Department of Revenue.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+  });
+
+  // US sales tax rates (state-only and approx avg combined as of recent years)
+  // [name, stateRate, avgCombined]
+  const STATES = [
+    ['Alabama', 4.00, 9.29],
+    ['Alaska', 0.00, 1.82],
+    ['Arizona', 5.60, 8.40],
+    ['Arkansas', 6.50, 9.45],
+    ['California', 7.25, 8.85],
+    ['Colorado', 2.90, 7.81],
+    ['Connecticut', 6.35, 6.35],
+    ['Delaware', 0.00, 0.00],
+    ['Florida', 6.00, 7.02],
+    ['Georgia', 4.00, 7.38],
+    ['Hawaii', 4.00, 4.44],
+    ['Idaho', 6.00, 6.03],
+    ['Illinois', 6.25, 8.83],
+    ['Indiana', 7.00, 7.00],
+    ['Iowa', 6.00, 6.94],
+    ['Kansas', 6.50, 8.66],
+    ['Kentucky', 6.00, 6.00],
+    ['Louisiana', 4.45, 9.55],
+    ['Maine', 5.50, 5.50],
+    ['Maryland', 6.00, 6.00],
+    ['Massachusetts', 6.25, 6.25],
+    ['Michigan', 6.00, 6.00],
+    ['Minnesota', 6.875, 7.49],
+    ['Mississippi', 7.00, 7.07],
+    ['Missouri', 4.225, 8.39],
+    ['Montana', 0.00, 0.00],
+    ['Nebraska', 5.50, 6.94],
+    ['Nevada', 6.85, 8.23],
+    ['New Hampshire', 0.00, 0.00],
+    ['New Jersey', 6.625, 6.60],
+    ['New Mexico', 4.875, 7.62],
+    ['New York', 4.00, 8.53],
+    ['North Carolina', 4.75, 6.97],
+    ['North Dakota', 5.00, 6.97],
+    ['Ohio', 5.75, 7.24],
+    ['Oklahoma', 4.50, 8.99],
+    ['Oregon', 0.00, 0.00],
+    ['Pennsylvania', 6.00, 6.34],
+    ['Rhode Island', 7.00, 7.00],
+    ['South Carolina', 6.00, 7.50],
+    ['South Dakota', 4.20, 6.40],
+    ['Tennessee', 7.00, 9.55],
+    ['Texas', 6.25, 8.20],
+    ['Utah', 6.10, 7.20],
+    ['Vermont', 6.00, 6.36],
+    ['Virginia', 5.30, 5.77],
+    ['Washington', 6.50, 9.38],
+    ['West Virginia', 6.00, 6.55],
+    ['Wisconsin', 5.00, 5.70],
+    ['Wyoming', 4.00, 5.44],
+    ['DC (District of Columbia)', 6.00, 6.00]
+  ];
+
+  // Populate state dropdown
+  const stateSelect = $('state-select');
+  STATES.forEach(([name, st, comb]) => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.dataset.rate = comb;
+    opt.dataset.state = st;
+    opt.textContent = `${name} — ${comb.toFixed(2)}%`;
+    stateSelect.appendChild(opt);
+  });
+
+  // Populate state table
+  const tbody = $('state-tbody');
+  STATES.forEach(([name, st, comb]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${name}</td>
+      <td>${st === 0 ? '<span class="no-tax">None</span>' : st.toFixed(2) + '%'}</td>
+      <td>${comb === 0 ? '<span class="no-tax">None</span>' : comb.toFixed(2) + '%'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  stateSelect.addEventListener('change', () => {
+    const opt = stateSelect.selectedOptions[0];
+    if (opt && opt.dataset.rate) {
+      $('rate-input').value = parseFloat(opt.dataset.rate).toFixed(2);
+      const st = parseFloat(opt.dataset.state);
+      const comb = parseFloat(opt.dataset.rate);
+      const info = $('rate-info');
+      if (st === 0 && comb === 0) {
+        info.innerHTML = `<strong>${opt.value}</strong> has no sales tax.`;
+      } else {
+        info.innerHTML = `<strong>${opt.value}</strong>: state rate ${st.toFixed(2)}%, avg combined (with local) ${comb.toFixed(2)}%.`;
+      }
+      info.style.display = 'block';
+    } else {
+      $('rate-info').style.display = 'none';
+    }
+    calc();
+  });
+
+  // Mode toggle
+  let mode = 'forward';
+  $('mode-forward').addEventListener('click', () => setMode('forward'));
+  $('mode-reverse').addEventListener('click', () => setMode('reverse'));
+  function setMode(m) {
+    mode = m;
+    $('mode-forward').classList.toggle('active', m === 'forward');
+    $('mode-reverse').classList.toggle('active', m === 'reverse');
+    if (m === 'forward') {
+      $('price-label').textContent = 'Pre-Tax Price';
+      $('result-main-label').textContent = 'After-Tax Total';
+      $('r-base-label').textContent = 'Pre-Tax Price';
+    } else {
+      $('price-label').textContent = 'After-Tax Total';
+      $('result-main-label').textContent = 'Pre-Tax Price';
+      $('r-base-label').textContent = 'After-Tax Total';
+    }
+    calc();
+  }
+
+  function calc() {
+    const price = Math.max(0, parseFloat($('price-input').value) || 0);
+    const rate = Math.max(0, parseFloat($('rate-input').value) || 0);
+    const r = rate / 100;
+
+    let preTax, tax, total;
+    if (mode === 'forward') {
+      preTax = price;
+      tax = price * r;
+      total = price + tax;
+      $('r-total').textContent = fmt(total);
+      $('r-base').textContent = fmt(preTax);
+    } else {
+      total = price;
+      preTax = (1 + r) > 0 ? price / (1 + r) : 0;
+      tax = total - preTax;
+      $('r-total').textContent = fmt(preTax);
+      $('r-base').textContent = fmt(total);
+    }
+    $('r-tax').textContent = fmt(tax);
+    $('r-rate').textContent = rate.toFixed(2) + '%';
+  }
+
+  ['price-input','rate-input'].forEach((id) => {
+    $(id).addEventListener('input', calc);
+    $(id).addEventListener('change', calc);
+  });
+
+  calc();
+</script>
+
+</body>
+</html>
